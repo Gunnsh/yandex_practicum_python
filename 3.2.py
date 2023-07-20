@@ -211,12 +211,74 @@ while (text := input().split()) != []:
 {print(i) for i in res}
 
 #Q
-
+array = dict()
+while (text := input().split()) != []:
+    for i in range(len(text)):
+        if text[0] not in array:
+            array[text[0]] = {text[1]}
+        else:
+            array[text[0]].add(text[1])
+        text.reverse()
+for key, values in sorted(array.items()):
+    new = set()
+    for i in values:
+        new = (new | array[i]) - {key}
+    new = list(new - values)
+    new.sort()
+    print(f"{key}:", ", ".join(new))
 
 #R
-
+num = int(input())
+arr = {}
+for i in range(num):
+    x, y = map(int, input().split())
+    x //= 10
+    y //= 10
+    if (x, y) in arr.keys():
+        arr[(x, y)] += 1
+    else:
+        arr[(x, y)] = 1
+print(max(arr.values()))
 
 #S
-
+n = int(input())
+arr = []
+uniq = {}
+for i in range(n):
+    text = input().split(":")
+    arr.extend(list(set((text[1].strip()).split(", "))))
+for i in arr:
+    uniq[i] = uniq.get(i, 0) + 1
+arr = [keys for keys, values in uniq.items() if values == 1]
+arr.sort()
+[print(i) for i in arr]
 
 #T
+text = list(set(input().split("; ")))
+text = list(map(int, text))
+text.sort()
+text = tuple(text)
+
+
+def simplefunc(n, m):
+    temp = set()
+    temp1 = set()
+    for i in range(1, n + 1):
+        if n % i == 0:
+            temp.add(i)
+    for j in range(1, m + 1):
+        if m % j == 0:
+            temp1.add(j)
+    return temp & temp1
+
+
+for i in text:
+    arr = list(text)
+    arr.remove(i)
+    res = []
+    for j in arr:
+        a = simplefunc(i, j)
+        if a == {1}:
+            res.append(j)
+    if res != []:
+        print(i, "-", ", ".join(map(str, res)))
